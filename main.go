@@ -6,25 +6,49 @@ import (
 	"time"
 )
 
-var counter = 0
+type Job func()
 
-var m sync.Mutex
-
-func main() {
-	var cm sync.Mutex
-	cm = m  //copy of the mutex
-
-	go increment("Goroutine 1", &m)
-	go increment("Goroutine 2", &cm)
-
-	time.Sleep(time.Second)
+type pool struct {
+	workQueue chan Job // A channel of jobs
+	wg        sync.WaitGroup
 }
 
-func increment(name string, m *sync.Mutex){
-	for i:= 1; i <= 3; i++{
-		m.Lock()
-		counter += 1
-		fmt.Println(name + ": ", counter)
-		m.Unlock()
+func NewPool(workerCount int) *pool {
+	pool := &pool{
+		workQueue: make(chan Job),
 	}
+
+	pool.wg.Add(workerCount)
+
+	for i := 0; i < workerCount; i++ {
+		go func() {
+			defer pool.wg.Done()
+			for job := range pool.workQueue {
+				job()
+			}
+		}()
+	}
+	return pool
+}
+
+func (p *pool) AddJob(job Job) {
+	p.workQueue <- job
+}
+
+func (p *pool) Wait() {
+	close(p.workQueue)
+	p.wg.Wait()
+}
+
+func main() {
+	pool := NewPool(5)
+
+	for i := 0; i < 30; i++ {
+		job := func() {
+			time.Sleep(1 * time.Second)
+			fmt.Println("job: completed")
+		}
+		pool.AddJob(job)
+	}
+	pool.Wait()
 }
