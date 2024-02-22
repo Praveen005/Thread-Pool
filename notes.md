@@ -22,17 +22,17 @@ When we have large number of threads, Each thread would be requiring its own sta
 
 Since there are large number of threads, operating system will have to do, large number of context switching between them.
 
-    What is Context Switching?
+    > What is Context Switching?
 
     In operating systems, multiple processes or threads can appear to run simultaneously. The operating system achieves this by rapidly switching the CPU's attention between them. This is called context switching.
 
-    When a context switch occurs, the operating system must:
+    > When a context switch occurs, the operating system must:
 
     Save the state: Store all the information the current thread needs to resume later (like the values in its registers, program counter, etc.). This is its "context".
     
     Load the state: Load the saved context of another thread that's ready to run.
 
-    Why Context Switching Matters with Many Threads?
+    > Why Context Switching Matters with Many Threads?
     
     Overhead: Context switching isn't free. Saving and reloading states takes some processing time.
     
