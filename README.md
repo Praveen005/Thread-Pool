@@ -61,7 +61,7 @@ This is where the `Thread Pool` comes to our rescue.
 
 Thread pool is a collection of worker threads that are used to execute tasks concurrently.
 
-Whenever we want a thread we pick one from this pool and delegate a task to it.
+Whenever we want a thread, we pick one from this pool and delegate a task to it.
 
 Once the task is complete, we add the thread back to the thread pool.
 
@@ -73,7 +73,7 @@ Since, the size of the pool is limited(bounded) and hence, when your application
 
 You limit the max number of threads as per your requirement and/or the specifications of your hardware.
 
-- When you have too less number of threads, means you're not utilizing your hardware to the fullest, and if it is too large, your hardware overwhelms unnecessarily. We can do Lazy Eviction of threads but the gist is tune it to your requirement.
+- When you have too less number of threads, means you're not utilizing your hardware to the fullest, and if it is too large, your hardware gets overwhelmed unnecessarily. We can do Lazy Eviction of threads but the gist is to tune it to your requirement.
 
 
 ## Tuning the Thread Pool
